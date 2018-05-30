@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  .container {
+    margin: 100px 300px;
+  }
+
+  .container-item {
+    position: relative;
+    width: 300px;
+    height: 300px;
+  }
+
+  ul {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    -webkit-perspective: 500px;
+    perspective: 500px;
+    -webkit-perspective-origin: 50% -30%;
+    perspective-origin: 50% -30%;
+  }
+
+  ul > li {
+    list-style: none;
+    position: absolute;
+    transition: all .6s;
+    overflow: hidden;
+    z-index: 10;
+    display: none;
+  }
+
+  .item div {
+    width: 300px;
+    height: 300px;
+    z-index: 400;
+    display: block;
+    text-align: center;
+    line-height: 300px;
+    font-size: 30px;
+    /*color: white;*/
+  }
+
+  .item:nth-child(1) {
+    z-index: 400;
+    display: block;
+    -webkit-transform: translate3d(0, 0, 15px);
+    transform: translate3d(0, 0, 15px);
+    opacity: 0;
+  }
+
+  .item:nth-child(2) {
+    z-index: 300;
+    display: block;
+  }
+
+  .item:nth-child(3) {
+    z-index: 200;
+    display: block;
+  }
+
+  .item:nth-child(4),
+  .item:nth-child(5) {
+    z-index: 100;
+    display: block;
+  }
+
+  .container-item:hover .item:nth-child(3) {
+    -webkit-transform: translate3d(0, 0, -15px);
+    transform: translate3d(0, 0, -15px)
+  }
+
+  .container-item:hover .item:nth-child(4),
+  .container-item:hover .item:nth-child(5) {
+    -webkit-transform: translate3d(0, 0, -30px);
+    transform: translate3d(0, 0, -30px)
+  }
+
+  .container-item .control-btn {
+    opacity: 1
+  }
+
+  .container-item .control-btn:hover {
+    opacity: .5
+  }
+
+  .control-btn {
+    position: absolute;
+    height: 128px;
+    width: 64px;
+    background-color: rgba(194, 200, 204, .5);
+    top: 50%;
+    margin-top: -64px;
+    z-index: 400;
+    transition: all .4s;
+    border-top-right-radius: 64px;
+    border-bottom-right-radius: 64px;
+    cursor: pointer
+  }
+
+  .control-btn.control-btn-right {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    right: 0
+  }
+
+  .control-btn.control-btn-left {
+    left: 0
+  }
+
+  span.control-arrow-left {
+    top: 50%;
+    margin-top: -25px;
+    position: relative;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    left: 15px;
+  }
+
+  span.control-arrow-left:after, span.control-arrow-left:before {
+    left: 0;
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 3px;
+    content: '';
+    background-color: #fff
+  }
+
+  span.control-arrow-left:before {
+    top: 0;
+    border-bottom-right-radius: 3px;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg)
+  }
+
+  span.control-arrow-left:after {
+    bottom: 0;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-top-right-radius: 3px
+  }
+
+  .slide-control {
+    position: absolute;
+    top: 50%;
+  }
+
+  .slide-control-pre {
+    left: 40px;
+  }
+
+  .slide-control-next {
+    right: -40px;
+  }
+</style>
+<body>
+
+<div class="container">
+  <div class="container-item js-tg">
+    <ul>
+      <li class="item">
+        <div style="background-color:red;">1</div>
+      </li>
+      <li class="item">
+        <div style="background-color:burlywood;">2</div>
+      </li>
+      <li class="item">
+        <div style="background-color:blue">3</div>
+      </li>
+      <li class="item">
+        <div style="background-color:yellow;">4</div>
+      </li>
+      <li class="item">
+        <div style="background-color:green;">5</div>
+      </li>
+    </ul>
+    <div class="slide-control-pre slide-control">
+      <div class="control-btn control-btn-left">
+        <span class="control-arrow-left"></span>
+      </div>
+    </div>
+    <div class="slide-control-next slide-control">
+      <div class="control-btn control-btn-right">
+        <span class="control-arrow-left"></span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+  $(function (e) {
+    $(".container-item").on("click", ".slide-control-next", function (e) {
+      change('next')
+    });
+    $(".container-item").on("click", ".slide-control-pre", function (e) {
+      change('prev')
+    })
+  });
+
+
+  function change(flag) {
+    var listObj = $('.js-tg ul');
+    var tgEl;
+    if (flag === 'next') {
+      tgEl = listObj.find('li').eq(0);
+      var str = tgEl.prop("outerHTML");
+      tgEl.remove();
+      listObj.append(str);
+    }
+    if (flag === 'prev') {
+      tgEl = listObj.find('li').eq(listObj.find('li').length - 1);
+      var str = tgEl.prop("outerHTML");
+      tgEl.remove();
+      listObj.prepend(str);
+    }
+  }
+</script>
+</body>
+</html>
